@@ -1,0 +1,9 @@
+# build files
+build/
+
+# tmp and devtest files
+tmp/
+devtest/
+
+# IDE configs
+.vscode/
