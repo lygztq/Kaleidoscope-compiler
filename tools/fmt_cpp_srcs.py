@@ -27,7 +27,7 @@ def fmt_directory(dir: str) -> None:
 
 parser = argparse.ArgumentParser(
     description="format c++ source files in a directory")
-parser.add_argument("--dir", type=str, required=True, default=None,
+parser.add_argument("--dir", type=str, default=None,
                     help="the source file directory to be formated, "
                          "if None, format all source files")
 args = parser.parse_args()
