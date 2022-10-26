@@ -1,4 +1,4 @@
-cmake_minimum_required(3.14 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
 
 project(KaleidoscopeCompiler VERSION 0.0
         DESCRIPTION "A simple Kaleidoscope language compiler"
@@ -17,4 +17,7 @@ set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
 endif()
 
-include_directories("${CMAKE_SOURCE_DIR}/include")
+include_directories("${CMAKE_SOURCE_DIR}/include"
+                    "${CMAKE_SOURCE_DIR}/3rdparty/nameof/include")
+
+add_subdirectory("${CMAKE_SOURCE_DIR}/src/lexer")
