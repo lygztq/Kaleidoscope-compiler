@@ -21,3 +21,4 @@ include_directories("${CMAKE_SOURCE_DIR}/include"
                     "${CMAKE_SOURCE_DIR}/3rdparty/nameof/include")
 
 add_subdirectory("${CMAKE_SOURCE_DIR}/src/lexer")
+add_subdirectory("${CMAKE_SOURCE_DIR}/src/parser")

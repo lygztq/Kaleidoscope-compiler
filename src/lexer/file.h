@@ -67,6 +67,12 @@ class SourceFile {
   }
 
   /*!
+   * \brief Get the Source File Path object
+   * \return const std::string&
+   */
+  const std::string& GetSourceFilePath() const { return path_; }
+
+  /*!
    * \brief Get forward location in the source file
    * \return scompiler::SourceLocation Location
    */

@@ -23,6 +23,18 @@
 #else   // _WIN32
 #define LEXER_DLL
 #endif  // _WIN32
-#endif  // LEXER_EXPORT
+#endif  // LEXER_DLL
+
+#ifndef PARSER_DLL
+#ifdef _WIN32
+#ifdef PARSER_EXPORT
+#define PARSER_DLL __declspec(dllexport)
+#else  // PARSER_EXPORT
+#define PARSER_DLL __declspec(dllimport)
+#endif  // PARSER_EXPORT
+#else   // _WIN32
+#define PARSER_DLL
+#endif  // _WIN32
+#endif  // PARSER_DLL
 
 #endif  // KALEIDOSCOPE_MACRO_H_

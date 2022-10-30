@@ -129,6 +129,14 @@ class Lexer::Impl {
   /*! \brief Have we finish reading this source file */
   bool IsFinish() const;
 
+  /*!
+   * \brief Get the Source File Path
+   * \return const std::string&
+   */
+  const std::string& GetSourceFilePath() const {
+    return file_.GetSourceFilePath();
+  }
+
  private:
   /*!
    * \brief Skip a single-line comment
@@ -619,6 +627,10 @@ Lexer& Lexer::operator=(Lexer&& other) {
   return *this;
 }
 
+const std::string& Lexer::GetSourceFilePath() const {
+  return pimpl_->GetSourceFilePath();
+}
+
 bool Lexer::IsFinish() const { return pimpl_->IsFinish(); }
 
 TokenPtr Lexer::NextToken() { return pimpl_->NextToken(); }
@@ -635,6 +647,11 @@ std::ostream& operator<<(std::ostream& sm, Lexer& lexer) {
   } while (token->tag != TokenTag::kEOF);
   lexer.Reset();
   return sm;
+}
+
+void swap(Lexer& l1, Lexer& l2) {
+  using std::swap;
+  swap(l1.pimpl_, l2.pimpl_);
 }
 
 }  // namespace lexer
