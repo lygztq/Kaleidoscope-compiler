@@ -43,6 +43,7 @@ struct SourceLocation {
   void AdvanceLine() {
     ++line;
     ++pos;
+    col = 0;
   }
 
   bool operator==(const SourceLocation& other) const {
