@@ -54,6 +54,7 @@ class Parser {
     bool finish_parse = false;
     ASTPtr current = nullptr;
     std::optional<std::string> lexeme;
+    bool has_error = false;
     lexer_.Reset();
     NextToken();
 
@@ -66,12 +67,16 @@ class Parser {
           current = HandleDefinition();
           if (current) {
             ast_list.push_back(std::move(current));
+          } else {
+            has_error = true;
           }
           break;
         case TokenTag::kKwExtern:
           current = HandleExtern();
           if (current) {
             ast_list.push_back(std::move(current));
+          } else {
+            has_error = true;
           }
           break;
         case TokenTag::kPunctuator:
@@ -85,10 +90,13 @@ class Parser {
           current = HandleGlobalExpr();
           if (current) {
             ast_list.push_back(std::move(current));
+          } else {
+            has_error = true;
           }
           break;
       }
     }
+    if (has_error) return {};
     return ast_list;
   }
 
