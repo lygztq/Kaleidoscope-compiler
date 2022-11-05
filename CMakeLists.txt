@@ -29,3 +29,4 @@ include_directories("${CMAKE_SOURCE_DIR}/include"
 
 add_subdirectory("${CMAKE_SOURCE_DIR}/src/lexer")
 add_subdirectory("${CMAKE_SOURCE_DIR}/src/parser")
+add_subdirectory("${CMAKE_SOURCE_DIR}/src/ir")

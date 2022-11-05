@@ -9,6 +9,7 @@
 # - LLVM_LIBS
 # - LLVM_DEFINITIONS
 # - LLVM_VERSION
+# - LLVM_CXX_STARDARD
 
 function(find_llvm)
 
@@ -95,12 +96,19 @@ function(find_llvm)
   endif()
 
   # config llvm cxx flags
-  string(REGEX MATCHALL "(^| )-D[A-Za-z0-9_]*" DEFS ${LLVM_CXX_FLAGS})
+  string(REGEX MATCHALL "(^| )-D[A-Za-z0-9_]*" DEFS "${LLVM_CXX_FLAGS}")
   set(LLVM_DEFINITIONS "")
   foreach(flag IN ITEMS ${DEFS})
     string(STRIP "${flag}" def)
     list(APPEND LLVM_DEFINITIONS "${def}")
   endforeach(flag IN ITEMS ${DEFS})
+
+  string(REGEX MATCH "-std.*c\\+\\+([0-9]*)" LLVM_CXX_STD "${LLVM_CXX_FLAGS}")
+  if(LLVM_CXX_STD)
+    set(LLVM_CXX_STD ${CMAKE_MATCH_1})
+  else()
+    set(LLVM_CXX_STD "14")
+  endif(LLVM_CXX_STD)
 
   # collect LLVM_LIBS
   set(LLVM_LIBS "")
@@ -119,10 +127,12 @@ function(find_llvm)
   set(LLVM_LIBS "${LLVM_LIBS}" PARENT_SCOPE)
   set(LLVM_DEFINITIONS "${LLVM_DEFINITIONS}" PARENT_SCOPE)
   set(LLVM_VERSION "${LLVM_PACKAGE_VERSION}" PARENT_SCOPE)
+  set(LLVM_CXX_STANDARD "${LLVM_CXX_STD}" PARENT_SCOPE)
 
   message(STATUS "Found LLVM_INCLUDE_DIRS=" "${LLVM_INCLUDE_DIRS}")
   message(STATUS "Found LLVM_DEFINITIONS=" "${LLVM_DEFINITIONS}")
   message(STATUS "Found LLVM_LIBS=" "${LLVM_LIBS}")
   message(STATUS "Found LLVM_VERSION=" "${LLVM_VERSION}")
+  message(STATUS "Found LLVM_CXX_STANDARD=" "${LLVM_CXX_STD}")
 
 endfunction(find_llvm)
