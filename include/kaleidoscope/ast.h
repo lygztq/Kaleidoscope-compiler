@@ -51,6 +51,7 @@ class NumberExprAST : public ExprAST {
   explicit NumberExprAST(double val) : ExprAST(), value_(val) {}
 
   virtual void Dump(std::ostream& sm) const override { sm << value_; }
+  double GetValue() const { return value_; }
 
  private:
   double value_;
@@ -62,12 +63,13 @@ class VariableExprAST : public ExprAST {
   explicit VariableExprAST(const std::string& name) : ExprAST(), name_(name) {}
 
   virtual void Dump(std::ostream& sm) const override { sm << "%" << name_; }
+  const std::string& GetName() const { return name_; }
 
  private:
   std::string name_;
 };
 
-enum class SupportBinaryOpTag { kAdd, kSub, kMul, kDiv, kInvalid };
+enum class SupportBinaryOpTag { kAdd, kSub, kMul, kDiv, kLess, kInvalid };
 
 void StringToBinaryOpTagInit(
     std::unordered_map<std::string, SupportBinaryOpTag>& map) {
@@ -75,6 +77,7 @@ void StringToBinaryOpTagInit(
   map["-"] = SupportBinaryOpTag::kSub;
   map["*"] = SupportBinaryOpTag::kMul;
   map["/"] = SupportBinaryOpTag::kDiv;
+  map["<"] = SupportBinaryOpTag::kLess;
 }
 
 std::string BinoryOpTagName(SupportBinaryOpTag tag) {
@@ -87,6 +90,8 @@ std::string BinoryOpTagName(SupportBinaryOpTag tag) {
       return "*";
     case SupportBinaryOpTag::kDiv:
       return "/";
+    case SupportBinaryOpTag::kLess:
+      return "<";
   }
   return "";
 }
@@ -124,6 +129,12 @@ class BinaryExprAST : public ExprAST {
     sm << ")";
   }
 
+  ExprAST* GetLHS() { return lhs_.get(); }
+  const ExprAST* GetLHS() const { return lhs_.get(); }
+  ExprAST* GetRHS() { return rhs_.get(); }
+  const ExprAST* GetRHS() const { return rhs_.get(); }
+  const auto GetOpTag() { return op_tag_; }
+
  private:
   SupportBinaryOpTag op_tag_;
   std::unique_ptr<ExprAST> lhs_, rhs_;
@@ -150,6 +161,10 @@ class CallExprAST : public ExprAST {
     }
     sm << ")";
   }
+
+  const std::string& GetCallee() const { return callee_; }
+  const auto& GetArgs() const { return args_; }
+  const auto& GetArg(int idx) const { return args_[idx]; }
 
  private:
   std::string callee_;
@@ -179,6 +194,9 @@ class ProtoTypeAST : public AST {
     sm << ")\n";
   }
 
+  const std::string& GetName() const { return name_; }
+  const std::vector<std::string>& GetArgs() const { return args_; }
+
  private:
   std::string name_;
   std::vector<std::string> args_;
@@ -199,6 +217,9 @@ class FunctionAST : public AST {
     body_->Dump(sm);
     sm << "\n}\n";
   }
+
+  ProtoTypeAST* GetProto() { return prototype_.get(); }
+  ExprAST* GetBody() { return body_.get(); }
 
  private:
   std::unique_ptr<ProtoTypeAST> prototype_;

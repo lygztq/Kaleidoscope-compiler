@@ -31,12 +31,12 @@ int BinopPrecedence(const std::string& op) {
 
 }  // namespace
 
-#define PARSE_ERROR_LOG(msg)                                                \
-  {                                                                         \
-    auto location = current_token_->GetLocation();                          \
-    LOG_WARNING << "in source file: " << lexer_.GetSourceFilePath()         \
-                << ":" << (location.line + 1) << ":" << (location.col + 1)  \
-                << ", error message: " << msg << std::endl;                 \
+#define PARSE_ERROR_LOG(msg)                                               \
+  {                                                                        \
+    auto location = current_token_->GetLocation();                         \
+    LOG_WARNING << "in source file: " << lexer_.GetSourceFilePath() << ":" \
+                << (location.line + 1) << ":" << (location.col + 1)        \
+                << ", error message: " << msg << std::endl;                \
   }
 
 void Parser::NextToken() { current_token_ = lexer_.NextToken(); }

@@ -1,8 +1,8 @@
 #include <exception>
 #include <filesystem>
 #include <fstream>
-#include <string>
 #include <list>
+#include <string>
 
 #include "kaleidoscope/ast.h"
 #include "kaleidoscope/parser.h"
